@@ -86,7 +86,7 @@ node() {
     version = config["version"]
     def pos = version.lastIndexOf(".")
     majorVersion = version.substring(0, pos)
-    //def revisionNumber = shell(returnStdout: true, script: 'git rev-list --count HEAD')
+    //def revisionNumber = sh(returnStdout: true, script: 'git rev-list --count HEAD')
     //buildNumber = version + "-r" + revisionNumber
     //VersionNumber "${buildNumber}"
     //currentBuild.displayName = buildNumber
@@ -99,7 +99,7 @@ node() {
     stage('Build') {
         try {
             //notifyBuild('STARTED')
-            shell 'npm install'
+            sh 'npm install'
         } catch (e) {
             // If there was an exception thrown, the build failed
             currentBuild.result = "FAILED"
@@ -122,8 +122,8 @@ node() {
 stage('Functional Tests') {
     milestone()
     // use or create test server
-    node(windows) {
-        shell 'grunt'
+    node('windows') {
+        sh 'grunt'
     }
     //destroy test server
 }
