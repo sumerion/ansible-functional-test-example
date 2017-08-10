@@ -98,7 +98,7 @@ node() {
 
     stage('Build') {
         try {
-            notifyBuild('STARTED')
+            //notifyBuild('STARTED')
             shell 'npm install'
         } catch (e) {
             // If there was an exception thrown, the build failed
@@ -106,7 +106,7 @@ node() {
             throw e
         } finally {
             // Success or failure, always send notifications
-            notifyBuild(currentBuild.result)
+            //notifyBuild(currentBuild.result)
         }
 
     }
