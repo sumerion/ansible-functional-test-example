@@ -123,6 +123,8 @@ stage('Functional Tests') {
     milestone()
     // use or create test server
     node('windows') {
+        checkout scm
+        bat 'npm install'
         bat 'grunt'
     }
     //destroy test server
