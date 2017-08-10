@@ -125,7 +125,7 @@ stage('Functional Tests') {
     node('windows') {
         checkout scm
         bat 'npm install'
-        bat 'grunt'
+        bat 'npm test'
     }
     //destroy test server
 }
