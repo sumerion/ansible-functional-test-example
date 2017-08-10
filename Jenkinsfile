@@ -90,11 +90,11 @@ node() {
     //buildNumber = version + "-r" + revisionNumber
     //VersionNumber "${buildNumber}"
     //currentBuild.displayName = buildNumber
-    echo "Pipeline type is ${pipelineType}"
-    echo "Branch is ${env.BRANCH_NAME}"
-    echo "Version is ${version}"
-    echo "MajorVersion is ${majorVersion}"
-    echo "buildNumber is ${buildNumber}"
+    //echo "Pipeline type is ${pipelineType}"
+    //echo "Branch is ${env.BRANCH_NAME}"
+    //echo "Version is ${version}"
+    //echo "MajorVersion is ${majorVersion}"
+    //echo "buildNumber is ${buildNumber}"
 
     stage('Build') {
         try {
