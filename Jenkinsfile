@@ -123,7 +123,7 @@ stage('Functional Tests') {
     milestone()
     // use or create test server
     node('windows') {
-        sh 'grunt'
+        bat 'grunt'
     }
     //destroy test server
 }
