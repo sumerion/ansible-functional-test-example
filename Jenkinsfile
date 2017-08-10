@@ -86,10 +86,10 @@ node() {
     version = config["version"]
     def pos = version.lastIndexOf(".")
     majorVersion = version.substring(0, pos)
-    def revisionNumber = shell(returnStdout: true, script: 'git rev-list --count HEAD')
-    buildNumber = version + "-r" + revisionNumber
-    VersionNumber "${buildNumber}"
-    currentBuild.displayName = buildNumber
+    //def revisionNumber = shell(returnStdout: true, script: 'git rev-list --count HEAD')
+    //buildNumber = version + "-r" + revisionNumber
+    //VersionNumber "${buildNumber}"
+    //currentBuild.displayName = buildNumber
     echo "Pipeline type is ${pipelineType}"
     echo "Branch is ${env.BRANCH_NAME}"
     echo "Version is ${version}"
