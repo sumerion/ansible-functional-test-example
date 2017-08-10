@@ -86,7 +86,7 @@ node() {
     version = config["version"]
     def pos = version.lastIndexOf(".")
     majorVersion = version.substring(0, pos)
-    def revisionNumber = shell(returnStdout: true, script: 'git rev-list --count HEAD').split("\r?\n")[2]
+    def revisionNumber = shell(returnStdout: true, script: 'git rev-list --count HEAD').split("\r\n")[2]
     buildNumber = version + "-r" + revisionNumber
     VersionNumber "${buildNumber}"
     currentBuild.displayName = buildNumber
