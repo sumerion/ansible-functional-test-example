@@ -127,11 +127,12 @@ stage('Functional Tests') {
         sh 'export ANSIBLE_HOST_KEY_CHECKING=False' //can also be set via ansible.cfg file
         // EC2 access keys should be either set as an env var or in the ec2.ini file
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'keyId')]) {
-          sh 'export AWS_ACCESS_KEY_ID=${keyId}'
+          sh 'export AWS_ACCESS_KEY_ID="${keyId}"'
         }
         withCredentials([string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'key')]) {
-          sh 'export AWS_SECRET_ACCESS_KEY=${key}'
+          sh 'export AWS_SECRET_ACCESS_KEY="${key}"'
         }
+        sh 'echo $AWS_ACCESS_KEY_ID'
         sh 'ansible-playbook make-ec-instance.yml -u ubuntu --extra-vars "instance_name=my_feature_branch"'
         // use or create test server
         // put the dns name in a variable
