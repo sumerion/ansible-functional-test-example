@@ -152,16 +152,18 @@ stage('Functional Tests') {
             }
         }
         //destroy test server
-        withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'keyId'),
-                         string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'key')]) {
-          withEnv(["ANSIBLE_HOSTS=/etc/ansible/ec2.py",
-                   "EC2_INI_PATH=/etc/ansible/ec2.ini",
-                   "ANSIBLE_HOST_KEY_CHECKING=False",
-                   "AWS_ACCESS_KEY_ID=${keyId}",
-                   "AWS_SECRET_ACCESS_KEY=${key}"]) {
+        sshagent (credentials: ['sumerion-telenet-keypair']) {
+            withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'keyId'),
+                             string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'key')]) {
+                withEnv(["ANSIBLE_HOSTS=/etc/ansible/ec2.py",
+                         "EC2_INI_PATH=/etc/ansible/ec2.ini",
+                         "ANSIBLE_HOST_KEY_CHECKING=False",
+                         "AWS_ACCESS_KEY_ID=${keyId}",
+                         "AWS_SECRET_ACCESS_KEY=${key}"]) {
 
-              sh 'ansible-playbook destroy-ec-instance.yml -u ubuntu --extra-vars "instance_tag=tag_Name_my_feature_branch"'
-          }
+                    sh 'ansible-playbook destroy-ec-instance.yml -u ubuntu --extra-vars "instance_tag=tag_Name_my_feature_branch"'
+                }
+            }
         }
         
     }
