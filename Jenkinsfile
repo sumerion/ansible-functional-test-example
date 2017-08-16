@@ -79,7 +79,7 @@ def checkoutDevopsTools() {
     }
 }
 
-node() {
+node('master') {
     checkout scm
     def config = jsonParse(readFile("app/package.json"))
     //replace with def props = readJSON file: 'salesportal-client/package.json'
@@ -121,7 +121,7 @@ node() {
 }
 stage('Functional Tests') {
     milestone()
-    node() {
+    node('master') {
         sh 'export ANSIBLE_HOSTS=/etc/ansible/ec2.py'
         sh 'export EC2_INI_PATH=/etc/ansible/ec2.ini'
         sh 'export ANSIBLE_HOST_KEY_CHECKING=False' //can also be set via ansible.cfg file
@@ -172,7 +172,7 @@ stage("Deploy $acceptanceEnv") {
     timeout(time: 5, unit: 'DAYS') {
         input "About to deploy on $acceptanceEnv. Are you sure?"
     }
-    node() {
+    node('master') {
         echo 'Deploying...'
     }
 }
@@ -181,7 +181,7 @@ stage('Deploy PRD') {
     timeout(time: 5, unit: 'DAYS') {
         input 'About to deploy on PRD. Are you sure?'
     }
-    node() {
+    node('master') {
         echo 'Deploying...'
     }
 }
