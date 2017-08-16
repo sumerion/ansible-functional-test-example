@@ -129,7 +129,7 @@ stage('Functional Tests') {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'keyId'),
                          string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'key')]) {
           withEnv(["AWS_SECRET_ACCESS_KEY=${keyId}", "AWS_SECRET_ACCESS_KEY=${key}"]) {
-
+              echo env.AWS_SECRET_ACCESS_KEY
               sh 'ansible-playbook make-ec-instance.yml -u ubuntu --extra-vars "instance_name=my_feature_branch"'
           }
         }
