@@ -122,16 +122,13 @@ node('master') {
 stage('Functional Tests') {
     milestone()
     node('master') {
-        sh 'export ANSIBLE_HOSTS=/etc/ansible/ec2.py'
-        sh 'export EC2_INI_PATH=/etc/ansible/ec2.ini'
-        sh 'export ANSIBLE_HOST_KEY_CHECKING=False' //can also be set via ansible.cfg file
-        // EC2 access keys should be either set as an env var or in the ec2.ini file
+
         sshagent (credentials: ['sumerion-telenet-keypair']) {
             withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'keyId'),
                              string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'key')]) {
                 withEnv(["ANSIBLE_HOSTS=/etc/ansible/ec2.py",
-                         "EC2_INI_PATH=/etc/ansible/ec2.ini",
-                         "ANSIBLE_HOST_KEY_CHECKING=False",
+                         "EC2_INI_PATH=/etc/ansible/ec2.ini",  // EC2 access keys should be either set as an env var or in the ec2.ini file
+                         "ANSIBLE_HOST_KEY_CHECKING=False",  //can also be set via ansible.cfg file
                          "AWS_ACCESS_KEY_ID=${keyId}",
                          "AWS_SECRET_ACCESS_KEY=${key}"]) {
                     echo env.AWS_SECRET_ACCESS_KEY
