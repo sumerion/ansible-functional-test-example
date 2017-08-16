@@ -126,16 +126,18 @@ stage('Functional Tests') {
         sh 'export EC2_INI_PATH=/etc/ansible/ec2.ini'
         sh 'export ANSIBLE_HOST_KEY_CHECKING=False' //can also be set via ansible.cfg file
         // EC2 access keys should be either set as an env var or in the ec2.ini file
-        withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'keyId'),
-                         string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'key')]) {
-          withEnv(["ANSIBLE_HOSTS=/etc/ansible/ec2.py",
-                   "EC2_INI_PATH=/etc/ansible/ec2.ini",
-                  "ANSIBLE_HOST_KEY_CHECKING=False",
-                  "AWS_ACCESS_KEY_ID=${keyId}",
-                   "AWS_SECRET_ACCESS_KEY=${key}"]) {
-              echo env.AWS_SECRET_ACCESS_KEY
-              sh 'ansible-playbook make-ec-instance.yml -u ubuntu --extra-vars "instance_name=my_feature_branch"'
-          }
+        sshagent (credentials: ['sumerion-telenet-keypair']) {
+            withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'keyId'),
+                             string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'key')]) {
+                withEnv(["ANSIBLE_HOSTS=/etc/ansible/ec2.py",
+                         "EC2_INI_PATH=/etc/ansible/ec2.ini",
+                         "ANSIBLE_HOST_KEY_CHECKING=False",
+                         "AWS_ACCESS_KEY_ID=${keyId}",
+                         "AWS_SECRET_ACCESS_KEY=${key}"]) {
+                    echo env.AWS_SECRET_ACCESS_KEY
+                    sh 'ansible-playbook make-ec-instance.yml -u ubuntu --extra-vars "instance_name=my_feature_branch"'
+                }
+            }
         }
 
 
