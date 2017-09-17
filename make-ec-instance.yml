@@ -92,11 +92,11 @@
       register: npm_finished
       when: git_finished.changed
     - name: Stop APP
-      sudo_user: ubuntu
+      become_user: ubuntu
       command: pm2 stop app chdir={{homeDir}}/{{appDir}}/app
       ignore_errors: yes
     - name: Start APP
-      sudo_user: ubuntu
+      become_user: ubuntu
       command: pm2 start ./bin/www --name app chdir={{homeDir}}/{{appDir}}/app
       ignore_errors: yes
       when: npm_finished.changed
