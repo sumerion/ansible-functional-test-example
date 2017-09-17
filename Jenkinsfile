@@ -157,7 +157,7 @@ stage('Functional Tests') {
                          "ANSIBLE_HOST_KEY_CHECKING=False",
                          "AWS_ACCESS_KEY_ID=${keyId}",
                          "AWS_SECRET_ACCESS_KEY=${key}"]) {
-
+                    sh '/etc/ansible/ec2.py --refresh-cache'
                     sh 'ansible-playbook destroy-ec-instance.yml -u ubuntu --extra-vars "instance_tag=tag_Name_my_feature_branch"'
                 }
             }
