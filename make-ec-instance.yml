@@ -46,6 +46,8 @@
   become: True
   gather_facts: False
   tasks:
+    - name: Update apt
+      raw: "apt-get update"
     - name: Add python 
       raw: "apt-get -y install python-simplejson"
 
@@ -53,7 +55,8 @@
   hosts: launched
   become: True
   roles:
-    - { name: nsops.nodejs, version: "6.x" }
+    - { name: geerlingguy.nodejs, nodejs_version: "6.x" }
+
 
 - name: Deploy app
   hosts: launched
